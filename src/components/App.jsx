@@ -1,5 +1,4 @@
-/* eslint-disable array-callback-return */
-import { Component, useRef } from 'react';
+import { Component} from 'react';
 import axios from 'axios';
 
 import { SearchBar } from './searcheBar/searchBar';
