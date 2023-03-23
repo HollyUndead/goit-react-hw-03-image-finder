@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import { Component, useRef } from 'react';
 import axios from 'axios';
 
