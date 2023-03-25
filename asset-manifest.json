@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/react-homework-template/static/css/main.6ae5be79.css",
-    "main.js": "/react-homework-template/static/js/main.ce2749dc.js",
-    "static/media/png-transparent-magnifying-glass-computer-icons-investigation-glass-image-file-formats-magnifier.png": "/react-homework-template/static/media/png-transparent-magnifying-glass-computer-icons-investigation-glass-image-file-formats-magnifier.a1d92723fbdc11e08dfa.png",
-    "index.html": "/react-homework-template/index.html",
-    "main.6ae5be79.css.map": "/react-homework-template/static/css/main.6ae5be79.css.map",
-    "main.ce2749dc.js.map": "/react-homework-template/static/js/main.ce2749dc.js.map"
+    "main.css": "/goit-react-hw-03-image-finder/static/css/main.6ae5be79.css",
+    "main.js": "/goit-react-hw-03-image-finder/static/js/main.ec281b7f.js",
+    "static/media/png-transparent-magnifying-glass-computer-icons-investigation-glass-image-file-formats-magnifier.png": "/goit-react-hw-03-image-finder/static/media/png-transparent-magnifying-glass-computer-icons-investigation-glass-image-file-formats-magnifier.a1d92723fbdc11e08dfa.png",
+    "index.html": "/goit-react-hw-03-image-finder/index.html",
+    "main.6ae5be79.css.map": "/goit-react-hw-03-image-finder/static/css/main.6ae5be79.css.map",
+    "main.ec281b7f.js.map": "/goit-react-hw-03-image-finder/static/js/main.ec281b7f.js.map"
   },
   "entrypoints": [
     "static/css/main.6ae5be79.css",
-    "static/js/main.ce2749dc.js"
+    "static/js/main.ec281b7f.js"
   ]
 }
