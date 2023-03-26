@@ -1,4 +1,4 @@
-import { Component} from 'react';
+import { Component } from 'react';
 import axios from 'axios';
 
 import { SearchBar } from './searcheBar/searchBar';
@@ -7,65 +7,40 @@ import { Loader } from './loader/loader';
 import { ButtonPage } from './button/button';
 import { ImageGallery } from './imageGallery/imageGallery';
 import './styles.css';
+import { handleRespons } from 'functions/getRequest';
 
 export class App extends Component {
   state = {
     photos: [],
     error: '',
-    loading: true,
+    loading: false,
     largeImageUrl: '',
     modalActive: false,
-    searchFilter: 'cat',
+    searchFilter: '',
     pages: 1,
-    hideButton: false,
+    hideButton: true,
   };
 
-  getRequest = page => {
+  getRequest = prevState => {
     this.setState({ loading: true, hideButton: true });
-    if (page === undefined) {
-      page = this.state.pages;
-    } else {
-      this.setState({ pages: page });
-    }
-    setTimeout(
-      () =>
-        axios
-          .get(
-            `https://pixabay.com/api/?q=${this.state.searchFilter}&page=${page}&key=34670018-4febe9e6c0cb9fd604326a600&image_type=photo&orientation=horizontal&per_page=12`
-          )
-          .then(res => {
-            if(res.data.hits.length === 0){
-              this.setState({ loading: false, hideButton: true });
-              return
-            }
-            this.setState(prevState => {
-              let newArr = [...prevState.photos];
-              let chekArr = newArr.map(el => el.id);
-              let counterOldPhotos = 0;
-              res.data.hits.forEach(el => {
-                if (chekArr.includes(el.id) !== true) {
-                  newArr.push(el);
-                } else {
-                  counterOldPhotos = counterOldPhotos + 1;
-                }
-              });
-              if (counterOldPhotos !== 0) {
-                this.setState({ hideButton: true });
-              } else {
-                this.setState({ hideButton: false });
-              }
-              if(res.data.totalHits <= 12){
-                this.setState({ hideButton: true });
-              }
-              return { photos: newArr };
-            });
-          })
-          .catch(error => this.setState({ error: error.message }))
-          .finally(() => {
-            this.setState({ loading: false });
-          }),
-      1000
-    );
+    const firstPartUrl = `https://pixabay.com/api/?q=${this.state.searchFilter}&page=${this.state.pages}`;
+    const secondPartUrl =
+      '&key=34670018-4febe9e6c0cb9fd604326a600&image_type=photo&orientation=horizontal&per_page=12';
+    const url = firstPartUrl + secondPartUrl;
+    axios
+      .get(url)
+      .then(res => {
+        const newState = handleRespons(prevState, res.data.hits, this.state);
+        this.setState({
+          ...newState,
+        });
+      })
+      .catch(error => {
+        this.setState({ error: error.message });
+      })
+      .finally(() => {
+        this.setState({ loading: false });
+      });
   };
 
   closeModal = () => {
@@ -73,9 +48,13 @@ export class App extends Component {
   };
 
   setForModal = largeImageURL => {
-    let stringForUrl = largeImageURL.split(' ')
-    const stringForSearch = stringForUrl.join('+')
+    let stringForUrl = largeImageURL.split(' ');
+    const stringForSearch = stringForUrl.join('+');
     this.setState({ largeImageUrl: stringForSearch, modalActive: true });
+  };
+
+  setPage = page => {
+    this.setState({ pages: page });
   };
 
   changeSearchFilter = searchFilter => {
@@ -86,11 +65,15 @@ export class App extends Component {
       photos: [],
       pages: 1,
     });
-    this.getRequest();
   };
 
-  componentDidMount() {
-    this.getRequest();
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.pages !== this.state.pages ||
+      prevState.searchFilter !== this.state.searchFilter
+    ) {
+      this.getRequest(prevState);
+    }
   }
 
   render() {
@@ -110,7 +93,11 @@ export class App extends Component {
           closeModal={this.closeModal}
           modalActive={this.state.modalActive}
         />
-        <ButtonPage state={this.state} getRequest={this.getRequest} />
+        <ButtonPage
+          setPage={this.setPage}
+          currentPage={this.state.pages}
+          hideButton={this.state.hideButton}
+        />
       </div>
     );
   }

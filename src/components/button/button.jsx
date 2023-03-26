@@ -1,26 +1,27 @@
-import PropTypes from 'prop-types'
-import { Component } from "react"
+import PropTypes from 'prop-types';
+import { Component } from 'react';
 
-
-export class ButtonPage extends Component{
-    handleClick = (ev) => {
-        this.props.getRequest(this.props.state.pages+1)
-        setTimeout(()=>{ev.target.scrollIntoView()}, 1400)
+export class ButtonPage extends Component {
+  handleClick = () => {
+    this.props.setPage(this.props.currentPage + 1);
+  };
+  render() {
+    let buttonClassWarp = 'buttonWrap is-hidden';
+    if (this.props.hideButton === false) {
+      buttonClassWarp = 'buttonWrap';
     }
-    render(){
-    let buttonClassWarp = "buttonWrap"
-    if(this.props.state.hideButton === true){
-        buttonClassWarp= 'buttonWrap is-hidden'
-    }       
-        return(
-            <div className={buttonClassWarp}>
-                <button type="button" className='Button' onClick={this.handleClick}>Load more</button>
-            </div>
-        )
-    }
+    return (
+      <div className={buttonClassWarp}>
+        <button type="button" className="Button" onClick={this.handleClick}>
+          Load more
+        </button>
+      </div>
+    );
+  }
 }
 
 ButtonPage.propTypes = {
-    state: PropTypes.object,
-    getRequest: PropTypes.func
-}
+  currentPage: PropTypes.number,
+  setPage: PropTypes.func,
+  hideButton: PropTypes.bool,
+};
